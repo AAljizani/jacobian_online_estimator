@@ -1,0 +1,23 @@
+# ROS 2 / colcon
+build/
+install/
+log/
+
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+.venv/
+
+# Editors / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Data / media (keep these out of git history; link externally instead)
+*.bag
+*.mcap
+rosbag2_*/
+*.mp4
+*.mov
