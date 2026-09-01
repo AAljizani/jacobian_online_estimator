@@ -1,0 +1,15 @@
+# Placeholder parameters -- fill in during Phase 1/2.
+jacobian_estimator_node:
+  ros__parameters:
+    estimator: "broyden"   # "broyden" | "kalman"
+    initial_jacobian_scale: 1.0
+
+aruco_pose_node:
+  ros__parameters:
+    marker_id: 0
+    marker_size_m: 0.05
+    camera_calibration_file: "config/camera_calibration.yaml"  # TODO: generate this
+
+visual_servo_controller_node:
+  ros__parameters:
+    proportional_gain: 0.5
