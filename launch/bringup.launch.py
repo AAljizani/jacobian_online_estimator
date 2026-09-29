@@ -1,7 +1,7 @@
 """Launches the full pipeline: joint interface, ArUco pose, estimator,
 controller.
 
-TODO: split into bringup_sim.launch.py (PyBullet/Gazebo) and
+TODO: split into bringup_sim.launch.py (Gazebo) and
 bringup_hardware.launch.py once Phase 2 hardware is in hand -- they'll
 need different joint_interface_node parameters at minimum.
 """

@@ -21,11 +21,15 @@ Two estimation strategies are implemented and compared:
 An analytical Jacobian (via KDL) is used as ground truth in simulation to
 validate both.
 
+## Setup
+
+We use an SO-101 follower arm, which has 5 joints plus a gripper and uses 12V STS3215 servos. The camera is an Arducam OV9281 global shutter USB camera. It sits level and straight ahead of the arm and tracks one ArUco marker that is on the arm. We track the marker's full pose (position and rotation), so the Jacobian we estimate is 6x5.
+
+Software: Ubuntu 24.04, ROS 2 Jazzy, Gazebo Harmonic, OpenCV, KDL, and colcon.
+
 ## Status
 
-Early scaffolding stage — see `CHANGELOG.md` for what's landed and
-`DECISIONS.md` for why the project looks the way it does. Package interfaces
-below are stubs until Phase 1 (simulation validation) is underway.
+We are in Phase 1 (simulation). Both estimators run in a MuJoCo sim, and the SO-101 model runs in Gazebo with ArUco detection working. The arm hasn't arrived yet. The ROS 2 node files below are still stubs, and the sim code is outside this repo for now. See `CHANGELOG.md` for what we've done and `DECISIONS.md` for why.
 
 ## Package layout
 
@@ -50,7 +54,7 @@ ros2 launch jacobian_online_estimator bringup.launch.py
 
 ## Project phases
 
-1. Simulation validation (PyBullet / Gazebo Harmonic vs. KDL baseline)
+1. Simulation validation (MuJoCo / Gazebo Harmonic vs. KDL baseline)
 2. Hardware bring-up (arm + camera talking to ROS 2)
 3. Live deployment (closed-loop visual servoing on real hardware, 3D)
 4. Analysis and writeup
