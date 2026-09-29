@@ -14,9 +14,15 @@ We are comparing two ways to do the updating:
 
 We don't know yet which one works better. That's what the project is trying to find out. In simulation, we use KDL to calculate the real Jacobian from the arm's URDF, and compare both estimators against it.
 
+## Setup
+
+We use an SO-101 follower arm, which has 5 joints plus a gripper and uses 12V STS3215 servos. The camera is an Arducam OV9281 global shutter USB camera. It sits level and straight ahead of the arm and tracks one ArUco marker that is on the arm. We track the marker's full pose (position and rotation), so the Jacobian we estimate is 6x5.
+
+Software: Ubuntu 24.04, ROS 2 Jazzy, Gazebo Harmonic, OpenCV, KDL, and colcon.
+
 ## Status
 
-We are just getting started. The ROS 2 node files below are placeholders for now, and we'll fill them in starting with Phase 1 (simulation). See CHANGELOG.md for what we've done and DECISIONS.md for why.
+We are in Phase 1 (simulation). Both estimators run in a MuJoCo sim, and the SO-101 model runs in Gazebo with ArUco detection working. The arm hasn't arrived yet. The ROS 2 node files below are still placeholders, and the sim code is outside this repo for now. See CHANGELOG.md for what we've done and DECISIONS.md for why.
 
 ## Package layout
 
@@ -43,7 +49,7 @@ ros2 launch jacobian_online_estimator bringup.launch.py
 
 ## Project phases
 
-1. Simulation: get both estimators working in PyBullet or Gazebo and compare them to the KDL Jacobian
+1. Simulation: get both estimators working in MuJoCo and Gazebo and compare them to the KDL Jacobian
 2. Hardware setup: get the arm and camera talking to ROS 2
 3. Running it live: close the loop and control the real arm in 3D using the camera
 4. Analysis and writing the report

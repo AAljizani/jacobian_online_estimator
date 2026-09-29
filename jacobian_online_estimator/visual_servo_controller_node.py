@@ -5,10 +5,11 @@ DECISIONS.md). We aren't doing any trajectory planning, since the
 estimator is the main part of the project, not the controller.
 
 We take the error between the target pose and the current pose, multiply
-it by a gain, and turn it into joint changes using the pseudo-inverse of
-the estimated Jacobian:
+it by a gain, and turn it into joint changes using the estimated Jacobian.
+We use damped least squares instead of a plain pseudo-inverse so it doesn't
+blow up near singularities (see DECISIONS.md, 2026-09-08):
 
-    dq = pinv(J) @ (K_p * (target_pose - current_pose))
+    dq = J^T (J J^T + lambda^2 I)^-1 (K_p * (target_pose - current_pose))
 """
 import rclpy
 from rclpy.node import Node
@@ -20,7 +21,7 @@ class VisualServoControllerNode(Node):
         self.get_logger().info('visual_servo_controller_node started (stub - Phase 3)')
         # TODO: subscribe to the current Jacobian estimate and the marker pose
         # TODO: get the target pose (from a topic or just keep a fixed one)
-        # TODO: work out dq with the pseudo-inverse and publish the joint command
+        # TODO: work out dq with damped least squares and publish the joint command
 
 
 def main(args=None):

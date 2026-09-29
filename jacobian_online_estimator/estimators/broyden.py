@@ -19,7 +19,9 @@ class BroydenEstimator:
         dy = dy.reshape(-1, 1)
         denom = float(dq.T @ dq)
         if denom < 1e-9:
-            return self.J  # skip tiny moves so we don't divide by almost zero
+            # skip tiny moves so we don't divide by almost zero. The real 1.5 degree
+            # check will go in jacobian_estimator_node (see DECISIONS.md).
+            return self.J
         residual = dy - self.J @ dq
         self.J = self.J + (residual @ dq.T) / denom
         return self.J

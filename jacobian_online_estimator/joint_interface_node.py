@@ -7,8 +7,10 @@ What it does:
 - Reads back the actual joint angles from the servos and publishes them
   as sensor_msgs/JointState.
 
-TODO: write this once we pick the arm (Hiwonder xArm 2.0 or SO-101). The
-two use different serial protocols.
+Arm: SO-101 follower (5-DOF plus gripper) with 12V STS3215 servos.
+TODO: decide if this node uses the so_arm_100_hardware ros2_control package
+or talks to the servos directly. Either way, the estimator has to get the
+measured joint angles, not the commanded ones (see DECISIONS.md, 2026-09-08).
 """
 import rclpy
 from rclpy.node import Node

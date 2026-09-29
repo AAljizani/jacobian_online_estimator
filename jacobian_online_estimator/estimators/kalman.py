@@ -4,8 +4,9 @@ Reference: Piepmeier et al., dynamic quasi-Newton and Kalman filter
 Jacobian estimation for uncalibrated visual servoing.
 
 TODO: this is still a placeholder. The state is the Jacobian flattened into
-a vector. The process noise Q and the measurement noise R need to be tuned
-on the real arm and camera, not just left at sim values.
+a vector (30 values for our 6x5 Jacobian). The process noise Q and the
+measurement noise R need to be tuned on the real arm and camera, not just
+left at sim values.
 """
 import numpy as np
 

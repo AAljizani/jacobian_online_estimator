@@ -1,9 +1,9 @@
 """Starts everything: the joint interface, ArUco pose, estimator, and
 controller.
 
-TODO: once we have the arm, split this into bringup_sim.launch.py
-(PyBullet or Gazebo) and bringup_hardware.launch.py, since they will at
-least need different settings for joint_interface_node.
+TODO: once we have the arm, split this into bringup_sim.launch.py (Gazebo)
+and bringup_hardware.launch.py, since they will at least need different
+settings for joint_interface_node.
 """
 from launch import LaunchDescription
 from launch_ros.actions import Node
