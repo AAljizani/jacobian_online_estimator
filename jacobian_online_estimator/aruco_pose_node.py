@@ -1,14 +1,14 @@
-"""Camera calibration + ArUco marker pose estimation.
+"""Finds the ArUco marker in the camera image and gets its pose.
 
-Phase 1/2 work item. Publishes the end-effector's pose (as seen by the
-fixed eye-to-hand camera) for the Jacobian estimator to consume.
+We need this in Phase 1 and 2. It publishes the pose of the marker on the
+end of the arm, as seen by the fixed camera, so the estimator can use it.
 
-TODO: camera intrinsic calibration (checkerboard) must be done and loaded
-before any pose here can be trusted.
-TODO: hand-eye calibration (camera-to-base transform) is a separate,
-one-time step -- see DECISIONS.md. This node publishes marker pose in the
-camera frame; the transform to base frame is applied downstream (or via
-tf2, once hand-eye calibration is complete).
+TODO: calibrate the camera first (with a checkerboard) and load that
+calibration, otherwise the poses from here can't be trusted.
+TODO: hand-eye calibration (where the camera is compared to the arm base)
+is a separate step we only do once, see DECISIONS.md. This node publishes
+the marker pose in the camera frame, and the change to the base frame
+happens later (or through tf2 once hand-eye calibration is done).
 """
 import rclpy
 from rclpy.node import Node
@@ -18,9 +18,9 @@ class ArucoPoseNode(Node):
     def __init__(self):
         super().__init__('aruco_pose_node')
         self.get_logger().info('aruco_pose_node started (stub - Phase 1/2)')
-        # TODO: open camera (OpenCV VideoCapture), load calibration
-        # TODO: detect ArUco marker, estimate pose (rvec/tvec)
-        # TODO: publish geometry_msgs/PoseStamped
+        # TODO: open the camera with OpenCV and load the calibration
+        # TODO: find the ArUco marker and get its pose (rvec and tvec)
+        # TODO: publish the pose as geometry_msgs/PoseStamped
 
 
 def main(args=None):

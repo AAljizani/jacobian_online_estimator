@@ -1,12 +1,12 @@
-"""Kalman-filter-based online Jacobian estimation.
+"""Kalman filter for estimating the Jacobian while the arm runs.
 
-Reference: Piepmeier et al., dynamic quasi-Newton / Kalman-filter Jacobian
-estimation for uncalibrated visual servoing.
+Reference: Piepmeier et al., dynamic quasi-Newton and Kalman filter
+Jacobian estimation for uncalibrated visual servoing.
 
-TODO: this is a stub. Real implementation needs the state to be the
-(vectorized) Jacobian, process noise Q and measurement noise R tuned
-against real hardware/camera noise (Phase 2/3), not just simulation
-defaults.
+TODO: this is still a placeholder. The state is the Jacobian flattened into
+a vector (30 values for our 6x5 Jacobian). The process noise Q and the
+measurement noise R need to be tuned on the real arm and camera, not just
+left at sim values.
 """
 import numpy as np
 
@@ -21,10 +21,10 @@ class KalmanJacobianEstimator:
         self.R = np.eye(n) * measurement_noise
 
     def update(self, dq: np.ndarray, dy: np.ndarray) -> np.ndarray:
-        # TODO: implement the full predict/update cycle. Left as a stub
-        # until Phase 2 hardware noise characteristics are known -- tuning
-        # Q/R against simulation defaults alone risks a filter that
-        # diverges on real sensor noise.
+        # TODO: write the full predict and update steps. We left this for
+        # now because we need to know how noisy the real hardware is first.
+        # If we only tune Q and R in the sim, the filter could go wrong
+        # once it sees real sensor noise.
         raise NotImplementedError(
             "KalmanJacobianEstimator.update: implement during Phase 1-2, "
             "tune against real hardware noise in Phase 2-3."

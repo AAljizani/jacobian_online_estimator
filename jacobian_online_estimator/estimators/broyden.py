@@ -1,12 +1,11 @@
-"""Broyden rank-1 update for online Jacobian estimation.
+"""Broyden rank-1 update for estimating the Jacobian while the arm runs.
 
-Reference: Hosoda & Asada (1994), "Versatile visual servoing without
+Reference: Hosoda and Asada (1994), "Versatile visual servoing without
 knowledge of true Jacobian."
 
 J_{k+1} = J_k + ((dy - J_k @ dq) @ dq.T) / (dq.T @ dq)
 
-where dq is the joint-space displacement and dy is the observed
-end-effector displacement.
+dq is how much the joints moved and dy is how much the marker moved.
 """
 import numpy as np
 
@@ -20,7 +19,7 @@ class BroydenEstimator:
         dy = dy.reshape(-1, 1)
         denom = float(dq.T @ dq)
         if denom < 1e-9:
-            return self.J  # avoid divide-by-near-zero on tiny motions
+            return self.J  # skip tiny moves so we don't divide by almost zero. The real 1.5 degree check happens before this (see DECISIONS.md).
         residual = dy - self.J @ dq
         self.J = self.J + (residual @ dq.T) / denom
         return self.J

@@ -1,9 +1,9 @@
-"""Launches the full pipeline: joint interface, ArUco pose, estimator,
+"""Starts everything: the joint interface, ArUco pose, estimator, and
 controller.
 
-TODO: split into bringup_sim.launch.py (Gazebo) and
-bringup_hardware.launch.py once Phase 2 hardware is in hand -- they'll
-need different joint_interface_node parameters at minimum.
+TODO: once we have the arm, split this into bringup_sim.launch.py (Gazebo)
+and bringup_hardware.launch.py, since they will at least need different
+settings for joint_interface_node.
 """
 from launch import LaunchDescription
 from launch_ros.actions import Node
