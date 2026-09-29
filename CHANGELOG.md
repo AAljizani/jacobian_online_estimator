@@ -18,9 +18,6 @@ This file is a list of what we got done and when. For why we did things a certai
 - Decided the camera goes straight ahead of the arm and level, and the marker goes directly on the arm.
 - Finished the SRS and the Sprint 0 presentation.
 
-## Sep 17
-- Asked PartaBot to switch the order to the full kit so we also get the leader arm.
-
 ## Sep 12
 - Set up dual boot with Ubuntu 24.04 on the desktop. Press F11 at the MSI screen to pick Ubuntu.
 - Installed ROS 2 Jazzy, Gazebo Harmonic, and ros2_control. Built the SO-101 packages from source (brukg/SO-100-arm and brukg/so_arm_100_hardware) and got gz.launch.py running.

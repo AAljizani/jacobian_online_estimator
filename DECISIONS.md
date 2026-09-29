@@ -30,7 +30,7 @@ Why: The arm is just what we run our experiments on. The actual project is the J
 
 Decision: For our minimum working version, both Broyden and Kalman have to run live on the real arm, not just Broyden.
 
-Why: At first the plan was to only have Broyden running for the minimum version, but we changed it because comparing the two is the whole point of the project. This makes things riskier, because Kalman is harder to tune. Kalman needs to know how noisy the real sensors are, and we can only really find that out on the real hardware, not in the sim. Because of that, we need to start working with the hardware earlier than we first planned, so we have time to tune Kalman before the Dec 9 CMU deadline.
+Why: At first the plan was to only have Broyden running for the minimum version, but we changed it because comparing the two is the whole point of the project. This makes things riskier, because Kalman is harder to tune. Kalman needs to know how noisy the real sensors are, and we can only really find that out on the real hardware, not in the sim. Because of that, we need to start working with the hardware earlier than we first planned, so we have time to tune Kalman before the end of the semester.
 
 ## 2026-09-01 - Keeping the controller simple
 
@@ -38,9 +38,9 @@ Decision: The controller that moves the arm toward the goal is a basic proportio
 
 Why: What's new in this project is the Jacobian estimation, not the controller. Controllers like this have already been figured out, so there's no reason to spend time on a fancy one or add more things that could go wrong.
 
-## 2026-09-01 - When to try the extra demos
+## 2026-09-01 - Extra demos if we have time
 
-Decision: If we are ahead of schedule, we will try some extra demos before Dec 9. These are recovering after the arm gets pushed, how it acts near singularities, and changing the target while it's moving. If we aren't ahead, we will wait and try them between Dec 9 and Dec 18.
+Decision: If we are ahead of schedule, we will try some extra demos. These are recovering after the arm gets pushed, how it acts near singularities, and changing the target while it's moving. If we aren't ahead, we will only try them at the end if there's time left.
 
 ## 2026-09-01 - Things that are out of scope
 
@@ -56,13 +56,13 @@ Why: The project needs a steady, fast USB connection to two things, the camera a
 
 ## 2026-09-01 - Calling it Project ObserVo
 
-Decision: We call the project Project ObserVo (observe + servo) when we talk about it, and in the CMU application, the demo video, and the portfolio writeup. The ROS 2 package is still called jacobian_online_estimator.
+Decision: We call the project Project ObserVo (observe + servo) when we talk about it, in the demo video, and in the writeup. The ROS 2 package is still called jacobian_online_estimator.
 
 Why: ObserVo is short and easier to remember than the package name, which helps when talking about the project or writing about it. We kept the package name the same because ROS 2 packages are supposed to be lowercase with underscores, and renaming it would break paths we already committed.
 
 ## 2026-09-08 - Using the SO-101 follower arm
 
-Decision: We are using one SO-101 follower arm. We ordered it from PartaBot (order #2165). It came unassembled with the 12V STS3215 servos. On 2026-09-17 we asked PartaBot to switch the order to the full kit so we also get the leader arm, but we still need to check if they actually did that.
+Decision: We are using one SO-101 follower arm. We ordered it from PartaBot, unassembled, with the 12V STS3215 servos.
 
 Why: The biggest reason is the URDF. In simulation we compare our estimators against the real Jacobian that KDL calculates from the URDF, so the URDF has to match the actual arm. The SO-101 has URDF and MJCF models made from its original CAD files, and there is already a ROS 2 Control package for it (so_arm_100_hardware). None of the other arms in our budget had both of those.
 
