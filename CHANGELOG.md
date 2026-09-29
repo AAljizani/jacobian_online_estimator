@@ -1,11 +1,6 @@
 # Changelog
 
-All notable changes to this project are logged here. This file is the
-human-readable timeline of the project — see `DECISIONS.md` for the *why*
-behind scope and design changes, and use `git log` / tags for the
-commit-level detail.
-
-Format loosely follows [Keep a Changelog](https://keepachangelog.com/).
+This file is a list of what we got done and when. For why we did things a certain way, check DECISIONS.md.
 
 ## Sep 28
 - Got both estimators running in a MuJoCo sim. Even with no noise added, the parts of the Jacobian for joints that weren't moving stayed out of date. Kalman had lower overall error, but Broyden was better at predicting along the direction the arm was actually moving.
@@ -32,37 +27,9 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 - Ordered the SO-101 follower arm from PartaBot with 12V servos.
 - Wrote the decisions for the arm, 12V servos, update gating, dither, trial order, marker placement, zero position check, and camera setup.
 
-## [Unreleased]
-
-### Added
-- Initial repository scaffolding: ROS 2 ament_python package structure,
-  node stubs for joint interface, ArUco pose, Jacobian estimator
-  (Broyden + Kalman), and visual servo controller.
-- `DECISIONS.md` to track scope and design decisions over time.
-- `CHANGELOG.md` (this file) to track progress over time.
-
-### Scope
-- MVP finalized to require **both** Broyden and Kalman estimators running
-  live on hardware (not Broyden-only). See `DECISIONS.md` entry 2026-09-01.
-
-### Environment
-- Development environment decided: dual-boot Ubuntu 24.04 on the primary
-  PC for ROS 2/Gazebo/hardware work; M1 MacBook Air for portable, non-ROS
-  work only. See `DECISIONS.md`.
-
-### Naming
-- Project is now referred to as **Project ObserVo** in conversation, the
-  demo video, and the writeup. ROS 2 package name unchanged
-  (`jacobian_online_estimator`). See `DECISIONS.md`.
-
-<!--
-Template for future entries:
-
-## [phase1-sim-validated] - YYYY-MM-DD
-### Added
-- ...
-### Changed
-- ...
-### Fixed
-- ...
--->
+## Sep 1
+- Set up the repo with the ROS 2 package structure and placeholder files for the joint interface, ArUco pose, Jacobian estimator (Broyden and Kalman), and the controller.
+- Started DECISIONS.md and this changelog.
+- Decided both Broyden and Kalman have to run on the real arm for the minimum version.
+- Decided to dual boot Ubuntu 24.04 on the desktop for ROS 2 work and use the MacBook only for things that don't need ROS 2.
+- Named the project Project ObserVo. The package name stays jacobian_online_estimator.

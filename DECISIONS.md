@@ -1,90 +1,64 @@
-# Decisions Log
+# Decisions
 
-Lightweight architecture/decision record for this capstone. Each entry:
-what was decided, when, and why — so the reasoning survives even if the
-person who made the call (you, months from now, under deadline pressure)
-forgets it.
+This file is where we write down the decisions we make for the project, when we made them, and why. We started it so that later on, when we're busy and don't remember why we did something a certain way, we can come back here and check. If a decision changes, we add a new entry and mark the old one as replaced instead of deleting it.
 
----
+## 2026-09-01 - Fixed camera watching the arm (eye-to-hand)
 
-## 2026-09-01 — Eye-to-hand camera configuration
-**Decision:** Camera is fixed on a stand watching the arm (not mounted on
-the arm). Tracks a fiducial marker on the end-effector.
-**Why:** Simplifies the camera-to-base transform to a single one-time
-hand-eye calibration, at the cost of that calibration being a hard
-dependency for everything downstream.
+Decision: The camera is on a fixed stand watching the arm, instead of being mounted on the arm. It tracks a marker on the end of the arm. This setup is called eye-to-hand.
 
-## 2026-09-01 — 3D requirement (not planar)
-**Decision:** The end-effector must move and be tracked in full 3D space.
-**Why:** An earlier planar version (dot on a wall) was rejected by the
-capstone advisor as too limited. This is a hard constraint on camera
-placement, marker choice, and workspace design.
+Why: With the camera in one fixed spot, we only have to figure out where the camera is compared to the arm base once. This is called hand-eye calibration. The downside is that everything after that depends on that calibration being right, so if it's off, everything else will be off too.
 
-## 2026-09-01 — ROS 2 Jazzy Jalisco + Gazebo Harmonic
-**Decision:** Use ROS 2 Jazzy (LTS, supported to 2029) and Gazebo Harmonic,
-not the newer Lyrical release.
-**Why:** Ecosystem maturity matters more than newness for a deadline-bound
-project.
+## 2026-09-01 - The arm has to work in 3D
 
-## 2026-09-01 — Robot arm: buy, don't build
-**Decision:** Purchase a pre-assembled arm (~$300-500 budget) rather than
-building one.
-**Status:** We picked the SO-101 on 2026-09-08 (see that entry below).
-No 3D printer available, which rules out print-it-yourself kits.
-**Why:** The arm is the substrate, not the contribution; buying protects
-project time for the actual research (Jacobian estimation).
+Decision: The end of the arm has to move and be tracked in full 3D, not just on a flat surface.
 
-## 2026-09-01 — MVP scope requires both estimators
-**Decision:** The MVP must run **both** Broyden and Kalman-based Jacobian
-estimation live on real hardware, not Broyden-only.
-**Why:** Revised from an earlier Broyden-only recommendation. Increases
-MVP risk (Kalman tuning is the harder, more fragile piece) — mitigated by
-front-loading hardware bring-up (Phase 2) earlier, since Kalman tuning
-needs real hardware noise characteristics, not just simulation.
-**Consequence:** Phase 2 timeline should be pulled earlier than originally
-planned to leave room for Kalman tuning before the end of the semester.
+Why: Our first idea was to track a dot moving on a wall, which is only 2D. Our advisor said that was too limited for a capstone. Working in 3D affects a lot of other choices, like where the camera goes, what marker we use, and how we set up the workspace.
 
-## 2026-09-01 — Visual servo control loop: basic proportional
-**Decision:** MVP control loop is a basic proportional visual servo, not
-trajectory-optimized.
-**Why:** The novelty of this project is the Jacobian estimator, not the
-controller. No reason to spend time or risk on a solved sub-problem.
+## 2026-09-01 - Using ROS 2 Jazzy and Gazebo Harmonic
 
-## 2026-09-01 — Stretch 2 timing
-**Decision:** Attempt robustness demos (disturbance recovery,
-near-singularity behavior, online target changes) if ahead of
-schedule; otherwise hold until the end if time allows.
+Decision: We are using ROS 2 Jazzy and Gazebo Harmonic instead of the newer ROS 2 release (Lyrical).
 
-## 2026-09-01 — Explicitly out of scope
-**Decision:** Multi-camera/stereo rigs, force/torque sensing, multi-arm
-coordination, custom firmware/PCB work, mobile base integration, and
-learned/neural-network Jacobian estimation are out of scope. The last item
-may be mentioned as future work in the final report.
-**Why:** Protects the timeline; none of these serve the core contribution.
+Why: Jazzy is a long term support release, so it's supported until 2029, and most packages already work with it. Since we have deadlines, we care more about things working than about having the newest version.
 
-## 2026-09-01 — Development environment: dual-boot Ubuntu on primary PC
-**Decision:** Dual-boot Ubuntu 24.04 LTS on the primary (strong) desktop PC as
-the main ROS 2 / Gazebo / hardware development machine. The M1 MacBook Air
-is used for lightweight, portable work only (report writing, git, and
-early Broyden/Kalman math prototyping in plain Python or PyBullet — no
-ROS 2 needed for that).
-**Why:** The project depends on continuous, low-latency USB access to two
-pieces of hardware (camera, servo bus). Any virtualization layer (VM on
-either machine, or WSL2 on Windows) adds a USB-passthrough risk layer on
-top of hand-eye calibration and the sim-to-real gap, which are already
-flagged as the hardest parts of this project. Apple Silicon has no
-Boot Camp option, ruling out dual-boot on the Mac.
+## 2026-09-01 - Buying an arm instead of building one
 
-## 2026-09-01 — Project name: "Project ObserVo"
-**Decision:** The project is referred to as **Project ObserVo** (observe +
-servo) in conversation, the demo video, and the
-writeup. The ROS 2 package itself keeps its existing name,
-`jacobian_online_estimator` — that stays as-is per ROS 2 naming
-convention (lowercase with underscores) and because renaming it now would
-break the repo/import paths already committed.
-**Why:** A short, memorable name is more useful than the technical
-package name in a conversation with a reviewer,
-without needing to touch the actual codebase.
+Decision: We are buying an arm instead of building our own. Our budget was around $300 to $500. We don't have a 3D printer, so kits where you print your own parts were out. We picked the SO-101 on 2026-09-08 (see that entry below).
+
+Why: The arm is just what we run our experiments on. The actual project is the Jacobian estimation, so we didn't want to spend our time building an arm when we could buy one and focus on the estimators.
+
+## 2026-09-01 - Both estimators have to run on the real arm
+
+Decision: For our minimum working version, both Broyden and Kalman have to run live on the real arm, not just Broyden.
+
+Why: At first the plan was to only have Broyden running for the minimum version, but we changed it because comparing the two is the whole point of the project. This makes things riskier, because Kalman is harder to tune. Kalman needs to know how noisy the real sensors are, and we can only really find that out on the real hardware, not in the sim. Because of that, we need to start working with the hardware earlier than we first planned, so we have time to tune Kalman before the end of the semester.
+
+## 2026-09-01 - Keeping the controller simple
+
+Decision: The controller that moves the arm toward the goal is a basic proportional controller. We are not doing any trajectory planning or optimization.
+
+Why: What's new in this project is the Jacobian estimation, not the controller. Controllers like this have already been figured out, so there's no reason to spend time on a fancy one or add more things that could go wrong.
+
+## 2026-09-01 - Extra demos if we have time
+
+Decision: If we are ahead of schedule, we will try some extra demos. These are recovering after the arm gets pushed, how it acts near singularities, and changing the target while it's moving. If we aren't ahead, we will only try them at the end if there's time left.
+
+## 2026-09-01 - Things that are out of scope
+
+Decision: We are not doing multiple cameras or stereo cameras, force or torque sensors, more than one arm, custom firmware or circuit boards, putting the arm on a mobile base, or using neural networks to learn the Jacobian. We might mention the neural network idea as future work in the final report.
+
+Why: None of these help with what we're actually trying to show, and each one would take a lot of time we don't have.
+
+## 2026-09-01 - Dual booting Ubuntu on the desktop
+
+Decision: We set up Ubuntu 24.04 as a dual boot on the desktop PC, and that's where all the ROS 2, Gazebo, and hardware work happens. The M1 MacBook Air is only for things that don't need ROS 2, like writing the report, using git, and trying out the math in plain Python.
+
+Why: The project needs a steady, fast USB connection to two things, the camera and the servo bus. If we ran Ubuntu in a virtual machine or used WSL2 on Windows, the USB has to be passed through an extra layer, and that could cause problems. Hand-eye calibration and getting the sim to match the real arm are already the hardest parts of the project, so we didn't want to add another thing that could break. We couldn't dual boot the Mac because Apple Silicon Macs don't support Boot Camp.
+
+## 2026-09-01 - Calling it Project ObserVo
+
+Decision: We call the project Project ObserVo (observe + servo) when we talk about it, in the demo video, and in the writeup. The ROS 2 package is still called jacobian_online_estimator.
+
+Why: ObserVo is short and easier to remember than the package name, which helps when talking about the project or writing about it. We kept the package name the same because ROS 2 packages are supposed to be lowercase with underscores, and renaming it would break paths we already committed.
 
 ## 2026-09-08 - Using the SO-101 follower arm
 

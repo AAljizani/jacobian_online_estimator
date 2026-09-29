@@ -1,12 +1,11 @@
-"""Runs the selected Jacobian estimator (Broyden or Kalman) online.
+"""Runs the Jacobian estimator (Broyden or Kalman) while the arm is moving.
 
-Subscribes to joint state + end-effector pose, computes dq/dy between
-updates, feeds them to the active estimator, and publishes the current
-Jacobian estimate.
+It listens to the joint states and the marker pose, works out how much the
+joints and the marker moved between updates, gives those to the estimator,
+and publishes the current Jacobian estimate.
 
-TODO: parameterize estimator choice (broyden|kalman) via config/params.yaml
-so both can run side-by-side for the Broyden-vs-Kalman comparison
-(Stretch 1).
+TODO: let config/params.yaml pick which estimator to use (broyden or
+kalman) so we can run both for the comparison.
 """
 import rclpy
 from rclpy.node import Node
@@ -16,9 +15,9 @@ class JacobianEstimatorNode(Node):
     def __init__(self):
         super().__init__('jacobian_estimator_node')
         self.get_logger().info('jacobian_estimator_node started (stub - Phase 1)')
-        # TODO: subscribe to JointState and end-effector PoseStamped
-        # TODO: instantiate BroydenEstimator and/or KalmanJacobianEstimator
-        # TODO: publish estimated Jacobian (custom msg or Float64MultiArray)
+        # TODO: subscribe to JointState and the marker PoseStamped
+        # TODO: create the BroydenEstimator and/or KalmanJacobianEstimator
+        # TODO: publish the Jacobian estimate (custom message or Float64MultiArray)
 
 
 def main(args=None):

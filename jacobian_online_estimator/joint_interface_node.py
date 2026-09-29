@@ -1,11 +1,11 @@
-"""Bridges the arm's serial-bus servo protocol into ROS 2.
+"""Connects the arm's servos to ROS 2.
 
-Phase 2 (hardware bring-up) work item.
+We need this in Phase 2 (hardware setup).
 
-Responsibilities:
-- Command joint angles to the arm's servos.
-- Read back actual joint angles (position feedback) and publish as
-  sensor_msgs/JointState.
+What it does:
+- Sends joint angles to the servos.
+- Reads back the actual joint angles from the servos and publishes them
+  as sensor_msgs/JointState.
 
 Arm: SO-101 follower (5-DOF plus gripper) with 12V STS3215 servos.
 TODO: decide if this node uses the so_arm_100_hardware ros2_control package
@@ -20,9 +20,9 @@ class JointInterfaceNode(Node):
     def __init__(self):
         super().__init__('joint_interface_node')
         self.get_logger().info('joint_interface_node started (stub - Phase 2)')
-        # TODO: open serial connection to servo bus
+        # TODO: open the serial connection to the servo bus
         # TODO: publish sensor_msgs/JointState on a timer
-        # TODO: subscribe to joint command topic, write to servos
+        # TODO: listen for joint commands and send them to the servos
 
 
 def main(args=None):
