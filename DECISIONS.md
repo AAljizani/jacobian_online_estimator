@@ -169,3 +169,11 @@ Decision: We now track the full pose of the marker, which is 3 position values a
 Why: The arm doesn't just move the marker around, it also rotates it. Only tracking position throws away the rotation information, and a lot of what wrist_roll does is rotation.
 
 Still to decide: The 2026-09-08 entry talked about the null space, which is the set of joint motions that don't change what we're tracking. That made sense for 3x5, where there are more joints than things being tracked. But 6x5 has more tracked values than joints, so if the Jacobian is full rank there isn't a null space anymore. The problem is still there, it's just better described as directions that don't get moved much or are hard to see. The 2026-09-28 sim showed this with the rotation rows. We need to pick one way to describe this and use it everywhere in the report.
+
+## 2026-10-26 - Keeping one joint calibration for all trials
+
+Decision: We calibrated the follower arm with LeRobot and saved the file in config/observo_follower.json. We use this same calibration for every trial. If we ever have to calibrate again, like after swapping a servo, we write it down and treat the trials from before and after as separate groups.
+
+Why: The calibration sets each joint's zero from where we hold the arm by hand, so it never comes out exactly the same twice. Between two runs the zeros moved by about 5 to 10 degrees. If that happened between Broyden and Kalman trials, the joint angles wouldn't line up, and it could look like a difference between the estimators when it's really just a different zero.
+
+Still to do: Check that wrist_roll reads close to 0 degrees in the middle pose, because its offset hit the 2047 limit.

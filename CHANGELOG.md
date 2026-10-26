@@ -2,6 +2,13 @@
 
 This file is a list of what we got done and when. For why we did things a certain way, check DECISIONS.md.
 
+## Oct 26
+- Installed LeRobot 0.6.2 in a conda env with Python 3.12. It needs 3.12 or newer, which is the same Python that ROS 2 Jazzy uses.
+- Set the servo IDs 1 to 6 one servo at a time, starting with the gripper and going down to shoulder_pan. Then chained them all together from the base up.
+- Calibrated the follower arm and saved it as config/observo_follower.json. Each arm joint got about 190 to 215 degrees of range.
+- Calibrating again moved the joint zeros by about 5 to 10 degrees each time, so we're keeping this one calibration for the trials.
+- wrist_flex and gripper have homing offsets around 1800, which probably means those horns went on off from the servo center. wrist_roll came out at 2047, which is the most the servo can store, so we still need to check its zero.
+
 ## Sep 28
 - Got both estimators running in a MuJoCo sim. Even with no noise added, the parts of the Jacobian for joints that weren't moving stayed out of date. Kalman had lower overall error, but Broyden was better at predicting along the direction the arm was actually moving.
 - Changed the update check so it adds up joint movement since the last update, because checking one step at a time almost never passed 1.5 degrees.
